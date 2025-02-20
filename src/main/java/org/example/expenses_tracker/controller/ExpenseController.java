@@ -1,5 +1,6 @@
 package org.example.expenses_tracker.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.expenses_tracker.DTO.ExpenseDTO;
 import org.example.expenses_tracker.entity.Expense;
@@ -29,5 +30,16 @@ public class ExpenseController {
     @GetMapping("/all")
   public ResponseEntity<?> getAllExpenses(){
         return ResponseEntity.ok(expenseService.getAllExpenses());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getExpenseById(@PathVariable Long id){
+        try{
+            return ResponseEntity.ok(expenseService.getExpenseById(id));
+        } catch (EntityNotFoundException ex){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+        }
     }
 }
