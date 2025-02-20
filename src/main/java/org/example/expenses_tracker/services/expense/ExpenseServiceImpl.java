@@ -31,6 +31,15 @@ public class ExpenseServiceImpl implements ExpenseService {
         return expenseRepository.save(expense);
     }
 
+    public Expense updateExpense(Long id, ExpenseDTO expenseDTO) {
+        Optional<Expense> optionalExpense = expenseRepository.findById(id);
+        if (optionalExpense.isPresent()) {
+            return saveOrUpdateExpense(optionalExpense.get(), expenseDTO);
+        } else {
+            throw new EntityNotFoundException("Expense not found with id " + id);
+        }
+    }
+
     public List<Expense> getAllExpenses(){
         return expenseRepository.findAll().stream()
                 .sorted(Comparator.comparing(Expense::getDate).reversed())
@@ -46,4 +55,13 @@ public class ExpenseServiceImpl implements ExpenseService {
             throw new EntityNotFoundException("Expense with id " + id + " not found");
         }
     }
+
+   public void deleteExpense(Long id) {
+        Optional<Expense> optionalExpense = expenseRepository.findById(id);
+        if(optionalExpense.isPresent()){
+            expenseRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Expense with id " + id + " not found");
+        }
+   }
 }
