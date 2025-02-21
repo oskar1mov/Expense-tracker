@@ -2,7 +2,6 @@ package org.example.expenses_tracker.controller;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.example.expenses_tracker.DTO.ExpenseDTO;
 import org.example.expenses_tracker.DTO.IncomeDTO;
 import org.example.expenses_tracker.entity.Income;
 import org.example.expenses_tracker.services.income.IncomeService;
